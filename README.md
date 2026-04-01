@@ -1,11 +1,11 @@
 # agents.json — The Open Standard for Agentic Commerce
 
 <p align="center">
-  <strong>agents.json is to shopping what robots.txt is to search.</strong>
+  <strong>AI agents can't shop online — not because they're not smart enough, but because no standard lets them.</strong>
 </p>
 
 <p align="center">
-  A machine-readable contract that lets any AI agent — Claude, GPT, Gemini, Grok, or any other — discover products, browse catalogs, and complete purchases at any compliant store, without store-specific integration code.
+  agents.json changes that. It's a machine-readable contract published by any online store — like robots.txt, but for commerce. Any AI agent that supports it can immediately browse, cart, and checkout at any compliant store, without a single line of store-specific code.
 </p>
 
 <p align="center">
@@ -20,36 +20,41 @@
 
 ## The Problem
 
-AI shopping agents today must be hard-coded to each store's unique API, payment processor, and checkout flow. A Shopify store, a WooCommerce boutique, and a Squarespace retailer all require separate integrations. This fragmentation prevents AI agents from acting as general-purpose shopping assistants.
+Right now, if you want an AI agent to buy something from a Shopify store, someone has to write a custom Shopify adapter. For WooCommerce, another adapter. For BigCommerce, another. And for every new store, start over.
 
-## The Solution
+This is the situation web search was in before robots.txt — every crawler needed custom rules for every site. Then the standard emerged, and suddenly all search engines and all websites spoke the same language.
 
-`agents.json` is a JSON document published at a store's root domain (or `/.well-known/agents.json`). It declares:
+**E-commerce is waiting for its robots.txt moment.** agents.json is that standard.
 
-- **Store identity** — name, branding, contact
-- **API endpoints** — catalog, search, cart, checkout
-- **Authentication** — how agents identify themselves vs. humans
-- **Product schema** — structured product data any agent can parse
-- **Policies** — returns, refunds, shipping, privacy
-- **Rate limits** — so agents behave responsibly
+## What You Get
 
-Any compliant agent can shop any compliant store. Implement once, access the entire network.
+```
+Any compliant agent  +  Any compliant store  =  General-purpose AI shopping
+```
+
+Once a store publishes `agents.json`, any supporting agent can:
+- Discover the store's catalog without a per-store integration
+- Search products with structured, machine-readable results
+- Add items to a cart and checkout using a standard API
+- Read policies (returns, shipping, privacy) automatically
+
+The same agent that shops your store can shop any other store. No new code required.
 
 ## Status
 
-**v1.0.0 — Published (Stable).** The spec is considered stable and suitable for production use. We welcome feedback from agent developers and e-commerce platform maintainers.
+**v1.0.0 — Published and Stable.** The spec is frozen and suitable for production. Reference implementations are live.
 
 ## Quick Start
 
-### For Store Operators
+### Store Operators
 
-Add `agents.json` to your store's root:
+Add `agents.json` to your root domain:
 
 ```
 https://yourstore.com/agents.json
 ```
 
-Or for RFC 8615 compliance:
+Or use the RFC 8615 well-known path:
 
 ```
 https://yourstore.com/.well-known/agents.json
@@ -57,54 +62,50 @@ https://yourstore.com/.well-known/agents.json
 
 See the [full specification](SPEC.md) for the schema.
 
-### For Agent Developers
+### Agent Developers
 
-Any agent that makes HTTP requests can implement agents.json support in a day. Fetch the root document, parse the endpoints, start shopping.
+Any agent that makes HTTP requests can implement agents.json support in a day:
+
+```bash
+curl https://any-store.com/agents.json  # discovery
+curl https://any-store.com/catalog       # browse products
+curl https://any-store.com/search?q=...  # search
+POST https://any-store.com/cart/items    # add to cart
+POST https://any-store.com/checkout      # purchase
+```
 
 Reference clients:
-- [agents.json JavaScript client](implementations/javascript/) — Node.js / browser
-- [agents.json Python client](implementations/python/) — Python 3.10+
-
-## Implementations
-
-| Platform | Status | Link |
-|----------|--------|------|
-| Python/FastAPI Server | Live — Running demo at `127.0.0.1:5000` | `implementations/python/` |
-| MCP Server (TypeScript) | Reference | `mcp-server/` |
-| Shopify App | Planned | `implementations/shopify/` |
-| WooCommerce Plugin | Planned | `implementations/woocommerce/` |
+- [JavaScript client](implementations/javascript/) — Node.js / browser
+- [Python client](implementations/python/) — Python 3.10+
 
 ## Live Demo
 
-The reference Python/FastAPI server is running at `http://127.0.0.1:5000`:
+The reference Python/FastAPI server is running:
 
 ```bash
-curl http://127.0.0.1:5000/agents.json  # discovery doc
-curl http://127.0.0.1:5000/catalog       # product catalog
-curl http://127.0.0.1:5000/search?q=...  # search
-curl -X POST http://127.0.0.1:5000/cart/items -d '{"product_id":"prod_001"}'  # add to cart
+curl http://127.0.0.1:5000/agents.json   # discovery doc
+curl http://127.0.0.1:5000/catalog        # product catalog
+curl http://127.0.0.1:5000/search?q=shoes # search
 ```
 
-An AI agent can complete a full purchase flow: discover → browse → add to cart → checkout → pay.
+## Reference Implementations
 
-## Implementors
-
-The following teams have implemented or are actively implementing agents.json. If you're working on an implementation, open a PR to add yourself here.
-
-| Who | What | Status |
-|-----|------|--------|
-| AgentBridge Working Group | Python/FastAPI reference server | Live |
-| AgentBridge Working Group | TypeScript MCP server | Reference |
-| *(your name here)* | Shopify app | In progress |
-| *(your name here)* | WooCommerce plugin | Planned |
-
-> To add your implementation, open a PR editing this table or file an issue.
+| Platform | Status | Link |
+|----------|--------|------|
+| Python/FastAPI Server | Live demo at `127.0.0.1:5000` | `implementations/python/` |
+| MCP Server (TypeScript) | Reference implementation | `mcp-server/` |
+| Shopify Storefront Proxy | Live | `implementations/shopify-proxy/` |
+| Cloudflare Worker | Planned | — |
+| Shopify App | Planned | — |
+| WooCommerce Plugin | Planned | — |
 
 ## Why Open Source the Spec?
 
-The moat is not the specification — it's the **adoption**. If every store speaks agents.json, every agent uses it. If every agent checks for it, every store must publish it. This is the SSL/robots.txt model: the standard creates the network effect, not the implementation.
+The moat is not the specification — it's **adoption**. If every store speaks agents.json, every agent uses it. If every agent checks for it, every store must publish it.
 
-We publish under [Apache 2.0](LICENSE) with [W3C CLA](CONTRIBUTING.md) for contributions. No company owns agents.json. Everyone can implement it.
+This is the SSL/robots.txt model: the standard creates the network effect, not the implementation.
+
+We publish under Apache 2.0 with W3C CLA for contributions. No company owns agents.json. Everyone can implement it.
 
 ## Contributing
 
@@ -114,15 +115,15 @@ We welcome contributions from:
 - **E-commerce operators** who want early agent traffic
 - **Standards engineers** who want to harden the spec
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for how to propose changes to the spec.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for how to propose changes.
 
 ## The Strategic Thesis
 
 > Every $1 spent on software, $6 is spent on services. The next legendary company sells the work — not the tool.
-> 
+>
 > *— Sequoia Capital, ["Services: The New Software"](https://sequoiacap.com/article/services-the-new-software/)*
 
-AgentBridge applies this thesis to commerce. The work is "make a purchase at the best price from a trusted store." The tool is the store's website. The agent that does this work for the consumer captures the full commerce budget — not the SaaS subscription.
+AgentBridge applies this thesis to commerce. The work is "make a purchase at the best price from a trusted store." The tool is the store's website. The agent that does this work for the consumer captures the full commerce budget.
 
 `agents.json` is the protocol layer that makes this work. The spec is the moat.
 
