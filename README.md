@@ -9,7 +9,9 @@
 </p>
 
 <p align="center">
-  <a href="https://agentbridge.org/spec/v1">Specification</a> ·
+  <a href="https://github.com/Petec79/agentbridge/stargazers"><img src="https://img.shields.io/github/stars/Petec79/agentbridge?style=flat&label=Stars" alt="GitHub Stars"></a>
+  <a href="https://github.com/Petec79/agentbridge/releases/tag/v1.0.0">v1.0.0</a> ·
+  <a href="https://github.com/Petec79/agentbridge/blob/main/SPEC.md">Specification</a> ·
   <a href="https://agentbridge.org">Website</a> ·
   <a href="https://discord.gg/agentbridge">Discord</a>
 </p>
@@ -35,7 +37,7 @@ Any compliant agent can shop any compliant store. Implement once, access the ent
 
 ## Status
 
-**v1.0.0 — Draft Specification.** The spec is stable enough for reference implementations. We are actively seeking feedback from agent developers and e-commerce platform maintainers.
+**v1.0.0 — Published (Stable).** The spec is considered stable and suitable for production use. We welcome feedback from agent developers and e-commerce platform maintainers.
 
 ## Quick Start
 
@@ -67,11 +69,23 @@ Reference clients:
 
 | Platform | Status | Link |
 |----------|--------|------|
-| Shopify App | In progress | `implementations/shopify/` |
+| Python/FastAPI Server | Live — Running demo at `127.0.0.1:5000` | `implementations/python/` |
+| MCP Server (TypeScript) | Reference | `mcp-server/` |
+| Shopify App | Planned | `implementations/shopify/` |
 | WooCommerce Plugin | Planned | `implementations/woocommerce/` |
-| Cloudflare Worker | Planned | `implementations/cloudflare-worker/` |
-| Node.js Client | Reference | `implementations/javascript/` |
-| Python Client | Reference | `implementations/python/` |
+
+## Live Demo
+
+The reference Python/FastAPI server is running at `http://127.0.0.1:5000`:
+
+```bash
+curl http://127.0.0.1:5000/agents.json  # discovery doc
+curl http://127.0.0.1:5000/catalog       # product catalog
+curl http://127.0.0.1:5000/search?q=...  # search
+curl -X POST http://127.0.0.1:5000/cart/items -d '{"product_id":"prod_001"}'  # add to cart
+```
+
+An AI agent can complete a full purchase flow: discover → browse → add to cart → checkout → pay.
 
 ## Why Open Source the Spec?
 

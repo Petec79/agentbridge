@@ -1,7 +1,7 @@
 # agents.json — Open Standard for Agentic Commerce
 
 **Version:** 1.0.0  
-**Status:** Draft Specification  
+**Status:** Published — Stable and Ready for Production Use  
 **URI:** https://github.com/Petec79/agentbridge/spec/v1  
 **Authors:** AgentBridge Working Group  
 
@@ -1533,7 +1533,8 @@ This specification requests the registration of the well-known URI suffix `agent
 
 | Version | Date | Changes |
 |---------|------|---------|
-| 1.0.0 | 2024-06-01 | Initial draft specification |
+| 1.0.0 | 2026-04-01 | Initial release — Full spec with discovery, browse, cart, checkout, and policy endpoints. Reference Python/FastAPI server and MCP client implementation. |
+| 1.0.0 | 2026-04-01 | v1.0.0 stabilised — promoted from Draft to Published. Spec is now considered stable and suitable for production implementation. |
 
 ---
 
