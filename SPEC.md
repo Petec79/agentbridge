@@ -2,7 +2,7 @@
 
 **Version:** 1.0.0  
 **Status:** Draft Specification  
-**URI:** https://agentbridge.org/spec/v1  
+**URI:** https://github.com/Petec79/agentbridge/spec/v1  
 **Authors:** AgentBridge Working Group  
 
 ---
@@ -1021,8 +1021,8 @@ Stores MUST NOT include PII in error response messages. Error messages MUST NOT 
 Each version of the specification has a dedicated base path:
 
 ```
-https://agentbridge.org/spec/v1/  (current version)
-https://agentbridge.org/spec/v2/  (future versions)
+https://github.com/Petec79/agentbridge/spec/v1/  (current version)
+https://github.com/Petec79/agentbridge/spec/v2/  (future versions)
 ```
 
 ### 9.2 Media Type Versioning
@@ -1070,7 +1070,7 @@ When a version is deprecated, stores MUST return:
 ```http
 X-API-Deprecated: true
 X-API-Sunset: 2025-12-31
-X-API-Successor: https://agentbridge.org/spec/v2/
+X-API-Successor: https://github.com/Petec79/agentbridge/spec/v2/
 ```
 
 Agents MUST migrate to the successor version before the `sunset` date.
@@ -1166,7 +1166,7 @@ Agents MUST migrate to the successor version before the `sunset` date.
   "catalog_visibility": "public",
   "agentbridge": {
     "spec_version": "1.0.0",
-    "registry_url": "https://agentbridge.org/registry",
+    "registry_url": "https://github.com/Petec79/agentbridge/registry",
     "compliance_level": "full"
   }
 }
@@ -1467,7 +1467,7 @@ Shopify Hydrogen uses Remix-based routing. To expose `agents.json`:
 | `inventory.quantity` | `node.quantityAvailable` | `product.stock_quantity` | `product.inventory_level` |
 | `availability_status` | derived from quantity | derived from stock_status | `product.inventory_tracked` + level |
 
-**Testing:** Use the official AgentBridge compliance test suite at `https://agentbridge.org/testing/compliance/` to validate your implementation.
+**Testing:** Use the official AgentBridge compliance test suite at `https://github.com/Petec79/agentbridge/testing/compliance/` to validate your implementation.
 
 ---
 
