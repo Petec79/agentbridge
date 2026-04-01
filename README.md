@@ -80,6 +80,8 @@ Reference clients:
 
 ## Live Demo
 
+![AgentBridge Demo](website/demo.gif)
+
 The reference Python/FastAPI server is running:
 
 ```bash
