@@ -87,6 +87,19 @@ curl -X POST http://127.0.0.1:5000/cart/items -d '{"product_id":"prod_001"}'  # 
 
 An AI agent can complete a full purchase flow: discover → browse → add to cart → checkout → pay.
 
+## Implementors
+
+The following teams have implemented or are actively implementing agents.json. If you're working on an implementation, open a PR to add yourself here.
+
+| Who | What | Status |
+|-----|------|--------|
+| AgentBridge Working Group | Python/FastAPI reference server | Live |
+| AgentBridge Working Group | TypeScript MCP server | Reference |
+| *(your name here)* | Shopify app | In progress |
+| *(your name here)* | WooCommerce plugin | Planned |
+
+> To add your implementation, open a PR editing this table or file an issue.
+
 ## Why Open Source the Spec?
 
 The moat is not the specification — it's the **adoption**. If every store speaks agents.json, every agent uses it. If every agent checks for it, every store must publish it. This is the SSL/robots.txt model: the standard creates the network effect, not the implementation.
