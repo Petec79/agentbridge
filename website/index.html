@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AgentBridge — The Standard for Agentic Commerce</title>
+  <meta name="description" content="agents.json is the open standard that lets any AI agent shop any store. Think robots.txt, but for commerce." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0f;
+      --bg2: #111118;
+      --bg3: #1a1a24;
+      --border: #2a2a3a;
+      --text: #e8e8f0;
+      --text2: #8888a0;
+      --accent: #6c63ff;
+      --accent2: #ff6b6b;
+      --green: #4ade80;
+      --yellow: #fbbf24;
+      --blue: #38bdf8;
+      --radius: 12px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+    /* NAV */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(10,10,15,0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+    }
+    nav .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--text);
+    }
+    .nav-logo svg { width: 28px; height: 28px; }
+    .nav-links { display: flex; gap: 32px; align-items: center; }
+    .nav-links a { color: var(--text2); font-size: 0.9rem; font-weight: 500; }
+    .nav-links a:hover { color: var(--text); text-decoration: none; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+    .btn-primary:hover { background: #7d79ff; text-decoration: none; }
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-outline:hover { border-color: var(--text2); text-decoration: none; }
+    .btn-large { padding: 13px 28px; font-size: 1rem; border-radius: 10px; }
+
+    /* HERO */
+    .hero {
+      padding: 100px 0 80px;
+      text-align: center;
+      position: relative;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -100px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 600px;
+      background: radial-gradient(ellipse, rgba(108,99,255,0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 6px 16px;
+      font-size: 0.85rem;
+      color: var(--text2);
+      margin-bottom: 28px;
+    }
+    .hero-badge .dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 8px var(--green);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    .hero h1 {
+      font-size: clamp(2.4rem, 6vw, 4.2rem);
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 20px;
+      letter-spacing: -0.03em;
+    }
+    .hero h1 .gradient {
+      background: linear-gradient(135deg, var(--accent) 0%, var(--blue) 50%, var(--accent2) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p {
+      font-size: 1.2rem;
+      color: var(--text2);
+      max-width: 600px;
+      margin: 0 auto 40px;
+    }
+    .hero-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    .hero-code {
+      margin-top: 60px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      text-align: left;
+      max-width: 720px;
+      margin-left: auto;
+      margin-right: auto;
+      position: relative;
+    }
+    .hero-code .code-label {
+      position: absolute;
+      top: -11px;
+      left: 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 2px 10px;
+      font-size: 0.75rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text2);
+    }
+    .hero-code pre {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.88rem;
+      line-height: 1.7;
+      overflow-x: auto;
+      color: #c0b8ff;
+    }
+    .hero-code .key { color: var(--blue); }
+    .hero-code .str { color: var(--green); }
+    .hero-code .num { color: var(--yellow); }
+    .hero-code .punc { color: var(--text2); }
+
+    /* LOGOS */
+    .logos {
+      padding: 60px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .logos p {
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--text2);
+      margin-bottom: 28px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    .logos-grid {
+      display: flex;
+      gap: 40px;
+      justify-content: center;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .logo-item {
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--text2);
+      font-family: 'JetBrains Mono', monospace;
+      opacity: 0.5;
+    }
+
+    /* SECTION COMMON */
+    section { padding: 90px 0; }
+    .section-label {
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+    .section-subtitle {
+      font-size: 1.1rem;
+      color: var(--text2);
+      max-width: 580px;
+      margin-bottom: 56px;
+    }
+
+    /* PROBLEM / HOW IT WORKS */
+    .problem-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+    .problem-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+    }
+    .problem-card h3 { font-size: 1rem; margin-bottom: 10px; color: var(--accent2); }
+    .problem-card p { font-size: 0.92rem; color: var(--text2); }
+    .problem-card.without { border-color: rgba(255,107,107,0.3); }
+
+    .how-it-works { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+    .step { text-align: center; }
+    .step-num {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 800;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+    }
+    .step h3 { font-size: 1.05rem; margin-bottom: 10px; }
+    .step p { font-size: 0.9rem; color: var(--text2); }
+
+    /* SPEC */
+    .spec-preview {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .spec-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg3);
+      padding: 0 4px;
+    }
+    .spec-tab {
+      padding: 12px 20px;
+      font-size: 0.85rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text2);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: all 0.15s;
+    }
+    .spec-tab.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+    .spec-tab:hover { color: var(--text); }
+    .spec-content { padding: 28px; }
+    .spec-content pre {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      line-height: 1.8;
+      color: #c0b8ff;
+      overflow-x: auto;
+    }
+    .spec-content .comment { color: var(--text2); }
+    .spec-content .key { color: var(--blue); }
+    .spec-content .str { color: var(--green); }
+    .spec-content .num { color: var(--yellow); }
+
+    /* FEATURES */
+    .features-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .feature-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      transition: border-color 0.2s;
+    }
+    .feature-card:hover { border-color: var(--accent); }
+    .feature-icon {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      background: rgba(108,99,255,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+      font-size: 1.2rem;
+    }
+    .feature-card h3 { font-size: 1rem; margin-bottom: 8px; }
+    .feature-card p { font-size: 0.9rem; color: var(--text2); }
+
+    /* PHASES */
+    .phases { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .phase-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+    }
+    .phase-tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 3px 10px;
+      border-radius: 100px;
+      margin-bottom: 14px;
+    }
+    .phase-card:nth-child(1) .phase-tag { background: rgba(74,222,128,0.15); color: var(--green); }
+    .phase-card:nth-child(2) .phase-tag { background: rgba(251,191,36,0.15); color: var(--yellow); }
+    .phase-card:nth-child(3) .phase-tag { background: rgba(56,189,248,0.15); color: var(--blue); }
+    .phase-card h3 { font-size: 1rem; margin-bottom: 6px; }
+    .phase-card .phase-time { font-size: 0.8rem; color: var(--text2); margin-bottom: 14px; }
+    .phase-card ul { list-style: none; }
+    .phase-card li {
+      font-size: 0.88rem;
+      color: var(--text2);
+      padding: 4px 0;
+      padding-left: 16px;
+      position: relative;
+    }
+    .phase-card li::before { content: '→'; position: absolute; left: 0; color: var(--accent); }
+
+    /* CTA */
+    .cta {
+      text-align: center;
+      background: linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      border-top: 1px solid var(--border);
+    }
+    .cta h2 {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+    .cta p { font-size: 1.1rem; color: var(--text2); max-width: 520px; margin: 0 auto 36px; }
+    .cta-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 0;
+      color: var(--text2);
+      font-size: 0.88rem;
+    }
+    footer .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    footer a { color: var(--text2); }
+    footer a:hover { color: var(--text); }
+
+    @media (max-width: 768px) {
+      .problem-grid, .steps, .features-grid, .phases { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+      section { padding: 60px 0; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="container">
+    <div class="nav-logo">
+      <svg viewBox="0 0 28 28" fill="none">
+        <rect width="28" height="28" rx="7" fill="#6c63ff"/>
+        <path d="M8 14h12M14 8l6 6-6 6" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      AgentBridge
+    </div>
+    <div class="nav-links">
+      <a href="#spec">Spec</a>
+      <a href="#how">How It Works</a>
+      <a href="#features">Features</a>
+      <a href="#roadmap">Roadmap</a>
+      <a href="https://github.com/agentbridge" target="_blank">GitHub</a>
+    </div>
+    <a href="#get-started" class="btn btn-primary">Get Started</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-badge">
+      <span class="dot"></span>
+      Open Standard · Free Forever · No Account Required
+    </div>
+    <h1>The standard for<br/><span class="gradient">agentic commerce</span></h1>
+    <p>agents.json is an open, machine-readable contract that lets any AI agent discover, browse, and purchase from any store — without store-specific integration code.</p>
+    <div class="hero-actions">
+      <a href="#spec" class="btn btn-primary btn-large">Read the Spec</a>
+      <a href="https://github.com/agentbridge/agents.json" class="btn btn-outline btn-large">View on GitHub</a>
+    </div>
+    <div class="hero-code">
+      <span class="code-label">/.well-known/agents.json</span>
+      <pre>{
+  <span class="key">"store"</span>: { <span class="key">"name"</span>: <span class="str">"Acme Store"</span>, <span class="key">"domain"</span>: <span class="str">"acme.com"</span>, <span class="key">"currency"</span>: <span class="str">"USD"</span> },
+  <span class="key">"endpoints"</span>: {
+    <span class="key">"catalog"</span>:   <span class="str">"https://acme.com/api/agents/catalog"</span>,
+    <span class="key">"search"</span>:    <span class="str">"https://acme.com/api/agents/search"</span>,
+    <span class="key">"cart"</span>:      <span class="str">"https://acme.com/api/agents/cart"</span>,
+    <span class="key">"checkout"</span>:  <span class="str">"https://acme.com/api/agents/checkout"</span>
+  },
+  <span class="key">"auth"</span>: { <span class="key">"type"</span>: <span class="str">"none"</span> }
+}</pre>
+    </div>
+  </div>
+</section>
+
+<!-- LOGOS -->
+<div class="logos">
+  <div class="container">
+    <p>Works with every agent and every platform</p>
+    <div class="logos-grid">
+      <span class="logo-item">Claude</span>
+      <span class="logo-item">GPT-5</span>
+      <span class="logo-item">Gemini</span>
+      <span class="logo-item">Shopify</span>
+      <span class="logo-item">WooCommerce</span>
+      <span class="logo-item">Cloudflare</span>
+    </div>
+  </div>
+</div>
+
+<!-- PROBLEM -->
+<section id="why">
+  <div class="container">
+    <p class="section-label">The Problem</p>
+    <h2 class="section-title">Every AI agent needs a different adapter. That's broken.</h2>
+    <p class="section-subtitle">Today, AI shopping agents are hard-coded per store. A new store means a new integration. agents.json ends that fragmentation.</p>
+    <div class="problem-grid">
+      <div class="problem-card without">
+        <h3>Without AgentBridge</h3>
+        <p>Agent → custom Shopify adapter → custom Woo adapter → custom BigCommerce adapter → (repeat forever)</p>
+      </div>
+      <div class="problem-card">
+        <h3>With AgentBridge</h3>
+        <p>Agent → reads agents.json → knows exactly how to shop any compliant store. One integration, infinite stores.</p>
+      </div>
+    </div>
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:24px;text-align:center;">
+      <p style="font-size:0.95rem;color:var(--text2);">
+        Think <strong style="color:var(--text)">robots.txt</strong> for search engines — but for AI agents shopping online.
+        A single open standard, adopted everywhere, understood by every compliant agent.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how" class="how-it-works">
+  <div class="container">
+    <p class="section-label">How It Works</p>
+    <h2 class="section-title">Three steps from store to agent-accessible</h2>
+    <p class="section-subtitle">No account. No approval process. Publish the spec, and any compliant agent can shop you.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Publish</h3>
+        <p>Add <code>agents.json</code> to your store's root domain — or deploy a Cloudflare Worker in one click.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Agents Discover</h3>
+        <p>Any compliant AI agent checks your domain for agents.json automatically, before it shops.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Shop</h3>
+        <p>Agent reads your catalog, adds items to cart, and completes checkout — all through the standard interface.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SPEC -->
+<section id="spec">
+  <div class="container">
+    <p class="section-label">The Specification</p>
+    <h2 class="section-title">A complete open standard for agentic commerce</h2>
+    <p class="section-subtitle">Every endpoint, field, and policy declared in the document itself. No surprises, no undocumented behaviour.</p>
+    <div class="spec-preview">
+      <div class="spec-tabs">
+        <div class="spec-tab active" data-tab="root">Root Document</div>
+        <div class="spec-tab" data-tab="catalog">Catalog Endpoint</div>
+        <div class="spec-tab" data-tab="cart">Cart Endpoint</div>
+        <div class="spec-tab" data-tab="checkout">Checkout</div>
+      </div>
+      <div class="spec-content">
+        <pre id="spec-code">Loading...</pre>
+      </div>
+    </div>
+    <div style="margin-top:24px; display:flex;gap:12px;justify-content:center;">
+      <a href="https://github.com/agentbridge/agents.json" class="btn btn-outline">Read Full Spec</a>
+      <a href="https://github.com/agentbridge/agents.json/blob/main/SPEC.md" class="btn btn-outline">Spec on GitHub</a>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features" style="background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+  <div class="container">
+    <p class="section-label">Why This Works</p>
+    <h2 class="section-title">Built on principles that scale</h2>
+    <p class="section-subtitle">Not just a spec. A complete ecosystem for agentic commerce adoption.</p>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">&#9675;</div>
+        <h3>Open & Royalty-Free</h3>
+        <p>No license required. No approval body. Anyone can implement agents.json without permission or payment.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#9675;</div>
+        <h3>Well-Known Discovery</h3>
+        <p>Agents check <code>/.well-known/agents.json</code> automatically — same pattern as robots.txt, SSL certificates.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#9675;</div>
+        <h3>Zero Auth Required</h3>
+        <p>Browse and buy as a guest. Agents don't need accounts either. Privacy-first by default.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#9675;</div>
+        <h3>Platform Agnostic</h3>
+        <p>Works whether your store runs on Shopify, WooCommerce, BigCommerce, or custom infrastructure.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#9675;</div>
+        <h3>Reference Implementations</h3>
+        <p>Official Cloudflare Worker, Shopify app, and WooCommerce plugin — deploy in minutes, not days.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#9675;</div>
+        <h3>Versioned & Extensible</h3>
+        <p>Backwards compatible versioning ensures old agents still work as the spec evolves.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ROADMAP -->
+<section id="roadmap">
+  <div class="container">
+    <p class="section-label">Roadmap</p>
+    <h2 class="section-title">How AgentBridge scales</h2>
+    <p class="section-subtitle">Three phases, each building on the last. Standard first. Infrastructure second. Intelligence third.</p>
+    <div class="phases">
+      <div class="phase-card">
+        <span class="phase-tag">Phase 1 — Free</span>
+        <h3>Standard-Setting</h3>
+        <p class="phase-time">Months 1–2</p>
+        <ul>
+          <li>Publish agents.json open spec</li>
+          <li>Open-source reference implementations</li>
+          <li>IANA well-known URI submission</li>
+          <li>GitHub community bootstrapping</li>
+          <li>Direct outreach to agent developers</li>
+        </ul>
+      </div>
+      <div class="phase-card">
+        <span class="phase-tag">Phase 2 — Freemium</span>
+        <h3>Hosting & Tools</h3>
+        <p class="phase-time">Months 2–3</p>
+        <ul>
+          <li>Cloudflare Worker one-click deploy</li>
+          <li>Shopify App Store listing</li>
+          <li>WooCommerce plugin directory</li>
+          <li>Free tier: 100 products, 50 sessions</li>
+          <li>Pro: $29/mo unlimited</li>
+        </ul>
+      </div>
+      <div class="phase-card">
+        <span class="phase-tag">Phase 3 — Premium</span>
+        <h3>Intelligence Layer</h3>
+        <p class="phase-time">Month 4+</p>
+        <ul>
+          <li>Agent behaviour analytics dashboard</li>
+          <li>Per-model conversion optimisation</li>
+          <li>A/B testing product descriptions</li>
+          <li>Dynamic pricing per agent model</li>
+          <li>Data network effect as moat</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" id="get-started">
+  <div class="container">
+    <h2>Start building the future of shopping</h2>
+    <p>agents.json is open and free. Implement it today and be ready when agentic commerce takes off.</p>
+    <div class="cta-actions">
+      <a href="https://github.com/agentbridge/agents.json" class="btn btn-primary btn-large">Read the Spec</a>
+      <a href="https://github.com/agentbridge/agents.json" class="btn btn-outline btn-large">Deploy Reference Impl</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <span>AgentBridge — Open standard for agentic commerce</span>
+    <div style="display:flex;gap:24px;">
+      <a href="https://github.com/agentbridge">GitHub</a>
+      <a href="#spec">Spec</a>
+      <a href="#roadmap">Roadmap</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Spec tab switcher
+  const specs = {
+    root: `{
+  <span class="key">"version"</span>: <span class="str">"1.0"</span>,
+  <span class="key">"store"</span>: {
+    <span class="key">"name"</span>:        <span class="str">"Acme Store"</span>,
+    <span class="key">"domain"</span>:      <span class="str">"https://acme.com"</span>,
+    <span class="key">"currency"</span>:    <span class="str">"USD"</span>,
+    <span class="key">"locale"</span>:      <span class="str">"en-US"</span>,
+    <span class="key">"contact_email"</span>: <span class="str">"support@acme.com"</span>
+  },
+  <span class="key">"endpoints"</span>: {
+    <span class="key">"catalog"</span>:   <span class="str">"https://acme.com/api/agents/catalog"</span>,
+    <span class="key">"search"</span>:    <span class="str">"https://acme.com/api/agents/search"</span>,
+    <span class="key">"cart"</span>:      <span class="str">"https://acme.com/api/agents/cart"</span>,
+    <span class="key">"checkout"</span>:  <span class="str">"https://acme.com/api/agents/checkout"</span>,
+    <span class="key">"policies"</span>:   <span class="str">"https://acme.com/api/agents/policies"</span>
+  },
+  <span class="key">"auth"</span>: {
+    <span class="key">"type"</span>:  <span class="str">"none"</span>,  <span class="comment">// or "api_key", "oauth2"</span>
+    <span class="key">"guest_allowed"</span>: <span class="num">true</span>
+  },
+  <span class="key">"rate_limits"</span>: {
+    <span class="key">"requests_per_minute"</span>: <span class="num">60</span>
+  }
+}`,
+
+catalog: `GET /api/agents/catalog?page=1&per_page=50
+
+{
+  <span class="key">"products"</span>: [
+    {
+      <span class="key">"id"</span>:          <span class="str">"prod_abc123"</span>,
+      <span class="key">"name"</span>:        <span class="str">"Wireless Headphones"</span>,
+      <span class="key">"description"</span>: <span class="str">"Premium noise-cancelling..."</span>,
+      <span class="key">"price"</span>:       <span class="num">149.99</span>,
+      <span class="key">"currency"</span>:    <span class="str">"USD"</span>,
+      <span class="key">"images"</span>:      [<span class="str">"https://acme.com/img/hp1.jpg"</span>],
+      <span class="key">"url"</span>:         <span class="str">"https://acme.com/products/headphones"</span>,
+      <span class="key">"categories"</span>:  [<span class="str">"electronics"</span>, <span class="str">"audio"</span>],
+      <span class="key">"in_stock"</span>:    <span class="num">true</span>,
+      <span class="key">"stock_count"</span>: <span class="num">342</span>
+    }
+  ],
+  <span class="key">"pagination"</span>: {
+    <span class="key">"page"</span>:        <span class="num">1</span>,
+    <span class="key">"per_page"</span>:    <span class="num">50</span>,
+    <span class="key">"total_pages"</span>: <span class="num">12</span>,
+    <span class="key">"total_count"</span>: <span class="num">587</span>
+  }
+}`,
+
+cart: `POST /api/agents/cart
+{
+  <span class="key">"agent_id"</span>: <span class="str">"claude-3-5-sonnet"</span>,
+  <span class="key">"items"</span>: [
+    { <span class="key">"product_id"</span>: <span class="str">"prod_abc123"</span>, <span class="key">"quantity"</span>: <span class="num">2</span> }
+  ]
+}
+
+Response:
+{
+  <span class="key">"cart_id"</span>:  <span class="str">"cart_xyz789"</span>,
+  <span class="key">"items"</span>: [
+    { <span class="key">"product_id"</span>: <span class="str">"prod_abc123"</span>, <span class="key">"name"</span>: <span class="str">"Wireless Headphones"</span>,
+      <span class="key">"price"</span>: <span class="num">149.99</span>, <span class="key">"quantity"</span>: <span class="num">2</span>, <span class="key">"subtotal"</span>: <span class="num">299.98</span> }
+  ],
+  <span class="key">"subtotal"</span>: <span class="num">299.98</span>,
+  <span class="key">"currency"</span>: <span class="str">"USD"</span>
+}`,
+
+checkout: `POST /api/agents/checkout
+{
+  <span class="key">"cart_id"</span>:    <span class="str">"cart_xyz789"</span>,
+  <span class="key">"agent_id"</span>:   <span class="str">"claude-3-5-sonnet"</span>,
+  <span class="key">"payment_token"</span>: <span class="str">"tok_visa"</span>,
+  <span class="key">"shipping_address"</span>: {
+    <span class="key">"name"</span>:        <span class="str">"Sam Developer"</span>,
+    <span class="key">"line1"</span>:      <span class="str">"123 AI Lane"</span>,
+    <span class="key">"city"</span>:        <span class="str">"San Francisco"</span>,
+    <span class="key">"state"</span>:       <span class="str">"CA"</span>,
+    <span class="key">"postal_code"</span>: <span class="str">"94102"</span>,
+    <span class="key">"country"</span>:     <span class="str">"US"</span>
+  }
+}
+
+Response:
+{
+  <span class="key">"order_id"</span>:  <span class="str">"ord_999"</span>,
+  <span class="key">"status"</span>:    <span class="str">"confirmed"</span>,
+  <span class="key">"total"</span>:     <span class="num">314.47</span>,
+  <span class="key">"currency"</span>:  <span class="str">"USD"</span>,
+  <span class="key">"confirmation_url"</span>: <span class="str">"https://acme.com/orders/ord_999"</span>
+}`
+  };
+
+  const specCode = document.getElementById('spec-code');
+  const tabs = document.querySelectorAll('.spec-tab');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      specCode.innerHTML = specs[tab.dataset.tab];
+    });
+  });
+
+  // Init
+  specCode.innerHTML = specs.root;
+</script>
+
+</body>
+</html>

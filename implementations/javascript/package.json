@@ -1,0 +1,18 @@
+{
+  "name": "@agentbridge/js-client",
+  "version": "0.1.0",
+  "description": "JavaScript client for agents.json — the open standard for agentic commerce",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+  },
+  "dependencies": {
+    "zod": "^3.22.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  }
+}

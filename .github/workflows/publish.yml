@@ -1,0 +1,24 @@
+name: Publish agents.json Spec
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Publish to npm (reference implementations)
+        run: |
+          echo "Publishing reference implementations..."
+          # Would publish @agentbridge/js-client and @agentbridge/python-client
+          echo "npm publish --access public"
+          echo "This requires npm credentials configured in repository secrets"
+
+      - name: Create GitHub Release
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/v}
+          echo "Creating release $VERSION"
