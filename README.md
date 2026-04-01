@@ -12,8 +12,7 @@
   <a href="https://github.com/Petec79/agentbridge/stargazers"><img src="https://img.shields.io/github/stars/Petec79/agentbridge?style=flat&label=Stars" alt="GitHub Stars"></a>
   <a href="https://github.com/Petec79/agentbridge/releases/tag/v1.0.0">v1.0.0</a> ·
   <a href="https://github.com/Petec79/agentbridge/blob/main/SPEC.md">Specification</a> ·
-  <a href="https://agentbridge.org">Website</a> ·
-  <a href="https://discord.gg/agentbridge">Discord</a>
+  <a href="https://petec79.github.io/agentbridge/">Website</a>
 </p>
 
 ---
@@ -80,23 +79,28 @@ Reference clients:
 
 ## Live Demo
 
-![AgentBridge Demo](website/demo.gif)
+![AgentBridge Demo](docs/demo.gif)
 
-The reference Python/FastAPI server is running:
+A live demo store is running with 15 real products. Try it now:
 
 ```bash
-curl http://127.0.0.1:5000/agents.json   # discovery doc
-curl http://127.0.0.1:5000/catalog        # product catalog
-curl http://127.0.0.1:5000/search?q=shoes # search
+# Discover the store
+curl https://petec79.github.io/agentbridge/stores/agentbridge-demo-myshopify-com/agents.json
+
+# Or use the proxy directly
+curl http://62.171.140.140:3334/stores/agentbridge-demo-myshopify-com/agents.json
 ```
+
+**[See it live in your browser →](https://petec79.github.io/agentbridge/)**
 
 ## Reference Implementations
 
 | Platform | Status | Link |
 |----------|--------|------|
-| Python/FastAPI Server | Live demo at `127.0.0.1:5000` | `implementations/python/` |
+| Shopify Storefront Proxy | Live at `62.171.140.140:3334` | `implementations/shopify-proxy/` |
 | MCP Server (TypeScript) | Reference implementation | `mcp-server/` |
-| Shopify Storefront Proxy | Live | `implementations/shopify-proxy/` |
+| JavaScript Client | Reference implementation | `implementations/javascript/` |
+| Landing Page | Live at `petec79.github.io/agentbridge` | `docs/` |
 | Cloudflare Worker | Planned | — |
 | Shopify App | Planned | — |
 | WooCommerce Plugin | Planned | — |
