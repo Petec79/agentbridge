@@ -12,7 +12,9 @@
   <a href="https://github.com/Petec79/agentbridge/stargazers"><img src="https://img.shields.io/github/stars/Petec79/agentbridge?style=flat&label=Stars" alt="GitHub Stars"></a>
   <a href="https://github.com/Petec79/agentbridge/releases/tag/v1.0.0">v1.0.0</a> ·
   <a href="https://github.com/Petec79/agentbridge/blob/main/SPEC.md">Specification</a> ·
-  <a href="https://petec79.github.io/agentbridge/">Website</a>
+  <a href="https://petec79.github.io/agentbridge/">Website</a> ·
+  <a href="https://discord.gg/agentbridge"><img src="https://img.shields.io/badge/Discord-Join-brightgreen?logo=discord" alt="Discord"></a> ·
+  <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="Apache 2.0">
 </p>
 
 ---
@@ -77,6 +79,23 @@ Reference clients:
 - [JavaScript client](implementations/javascript/) — Node.js / browser
 - [Python client](implementations/python/) — Python 3.10+
 
+### Add Shopping to Any Agent in 3 Lines
+
+**JavaScript:**
+```javascript
+const store = await fetch(storeUrl + '/agents.json').then(r => r.json());
+const products = await fetch(store.catalogUrl).then(r => r.json());
+const cart = await fetch(store.cartUrl, { method: 'POST', body: JSON.stringify({ items: [...] }) }).then(r => r.json());
+```
+
+**Python:**
+```python
+import json, requests
+store = json.loads(requests.get("https://any-store.com/agents.json").text)
+products = requests.get(store["catalogUrl"]).json()
+cart = requests.post(store["cartUrl"], json={"items": [...]}).json()
+```
+
 ## Live Demo
 
 ![AgentBridge Demo](docs/demo.gif)
@@ -104,6 +123,12 @@ curl http://62.171.140.140:3334/stores/agentbridge-demo-myshopify-com/agents.jso
 | Cloudflare Worker | Planned | — |
 | Shopify App | Planned | — |
 | WooCommerce Plugin | Planned | — |
+
+## Who's Using agents.json?
+
+> Want your logo here? [Add your store](https://agentbridge.org/add) — free forever.
+
+*[AgentBridge Demo Store](http://62.171.140.140:3334) · [Submit a PR to add your store](https://github.com/Petec79/agentbridge)*
 
 ## Why Open Source the Spec?
 
